@@ -1,5 +1,6 @@
 # Orbital
 #### Detecting orbiters of a certain gnome
+This program will figure out which orbiters are currently in Destiny's voice channel and return this on an endpoint as a list of strings.
 
 ### Running project
 * Make sure to configure the Discord bot token found in OrbiterManager to one with read permissions in the Discord.
