@@ -1,9 +1,11 @@
 package tech.hatsu.discord;
 
+import net.dv8tion.jda.api.entities.Member;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiscordBotManager {
+public class DiscordOrbiterMapper {
     private static final Map<String, String> orbiters = new HashMap<>();
 
     public static void loadOrbiters() {
@@ -25,7 +27,7 @@ public class DiscordBotManager {
         // orbiters.put("", "Biden");
         orbiters.put("80866328507842560", "TriHex");
         // orbiters.put("", "Lex"); // DUPLICATE
-        orbiters.put("580604479808864267", "Lex Fridman");
+        orbiters.put("580604479808864267", "Lex"); // Fridman
         // orbiters.put("", "Andy Milonakis");
         // orbiters.put("", "August");
         orbiters.put("107883526078095360", "Koibu");
@@ -57,7 +59,6 @@ public class DiscordBotManager {
         // orbiters.put("", "MrGirl"); // Mrgirl#7211 ?
         orbiters.put("996489063848751124", "Lav");
 
-
         // ORBITERS:
         orbiters.put("887772050410831943", "LowTierGod");
         // orbiters.put("", "Ethan Ralph");
@@ -87,13 +88,13 @@ public class DiscordBotManager {
         orbiters.put("981316730766917642", "Stardust");
         // orbiters.put("", "Anastasiya");
         orbiters.put("265560531450986497", "Dylan Burns");
-        orbiters.put("185966850268463104", "$PISS Pisco");
+        orbiters.put("185966850268463104", "Pisco");
         // orbiters.put("", "InvaderVie");
         orbiters.put("696191869507600436", "Straighterade");
         // orbiters.put("696191869507600436", "Erin"); // STRAIGHTERADE HAS THREE STOCKS ARE YOU OKAY BUDDY DELETE IF ONLY ONE IS USED
         orbiters.put("127629149559980033", "WickedSupreme");
         // orbiters.put("", "Sneako");
-        orbiters.put("588523841517649921", "Boze (BigBossBoze)");
+        orbiters.put("588523841517649921", "Boze");
         orbiters.put("112332482505912320", "VeganGains");
         orbiters.put("202947932100493312", "Rem"); // "Reading Kant" lol
         orbiters.put("406154268844752898", "imreallyimportant");
@@ -107,12 +108,12 @@ public class DiscordBotManager {
         System.out.println("Loaded Discord orbiters");
     }
 
-    public static boolean isOrbiter(String discordId) {
-        return orbiters.containsKey(discordId);
+    public static boolean isOrbiter(Member member) {
+        return orbiters.containsKey(member.getId());
     }
 
     // Normalized basically means: the name used in Manifold, as we want to match the discord id to a Manifold Market
     public static String getOrbiterNormalizedName(String discordId) {
-        return orbiters.get(discordId);
+        return orbiters.get(discordId).toLowerCase();
     }
 }
