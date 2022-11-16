@@ -1,6 +1,6 @@
 package tech.hatsu;
 
-import tech.hatsu.discord.DiscordOrbiterUpdater;
+import tech.hatsu.discord.DiscordOrbiterScraper;
 import tech.hatsu.manifold.OrbitStockManager;
 import tech.hatsu.manifold.model.Market;
 
@@ -10,17 +10,16 @@ import java.util.Optional;
 
 public class OrbiterManager {
     private OrbitStockManager orbitStockManager = new OrbitStockManager();
-    private DiscordOrbiterUpdater discordOrbiterUpdater = new DiscordOrbiterUpdater();
+    private DiscordOrbiterScraper discordOrbiterScraper = new DiscordOrbiterScraper();
 
     public OrbiterManager() {
     }
 
     public List<Orbiter> getCurrentOrbitersInRoom() {
-        List<String> currentOrbitersInRoom = discordOrbiterUpdater.getCurrentOrbitersInRoom();
+        List<String> currentOrbitersInRoom = discordOrbiterScraper.getCurrentOrbitersInRoom();
 
         List<Orbiter> result = new ArrayList<>();
         for (String orbiterName : currentOrbitersInRoom) {
-            String normalizedOrbiterName = orbiterName.toLowerCase();
             Optional<Market> popularMarketForOrbiter = orbitStockManager.getPopularMarketForOrbiter(orbiterName);
             if (popularMarketForOrbiter.isEmpty()) {
                 continue;
@@ -28,7 +27,7 @@ public class OrbiterManager {
             Market orbiterMarket = popularMarketForOrbiter.get();
 
             String value = String.format("%.2f", orbiterMarket.getProbability());
-            Orbiter orbiter = new Orbiter(normalizedOrbiterName, orbiterMarket.getId(), orbiterMarket.getUrl(), value);
+            Orbiter orbiter = new Orbiter(orbiterName, orbiterMarket.getId(), orbiterMarket.getUrl(), value);
             result.add(orbiter);
         }
 

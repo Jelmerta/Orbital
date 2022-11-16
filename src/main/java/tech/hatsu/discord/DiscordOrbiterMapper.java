@@ -108,12 +108,11 @@ public class DiscordOrbiterMapper {
         System.out.println("Loaded Discord orbiters");
     }
 
-    public static boolean isOrbiter(Member member) {
-        return orbiters.containsKey(member.getId());
+    public static Map<String, String> getOrbiters() {
+        return orbiters;
     }
 
-    // Normalized basically means: the name used in Manifold, as we want to match the discord id to a Manifold Market
-    public static String getOrbiterNormalizedName(String discordId) {
-        return orbiters.get(discordId).toLowerCase();
+    public static String toNormalizedName(String name) {
+        return name.toLowerCase();
     }
 }
