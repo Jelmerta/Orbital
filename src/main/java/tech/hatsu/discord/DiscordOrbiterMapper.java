@@ -9,6 +9,8 @@ public class DiscordOrbiterMapper {
     public static void loadOrbiters() {
         System.out.println("Loading Discord orbiters");
 
+	orbiters.put("199936015216017408", "Lav"); // TODO JUST FOR TESTING NOW this is a rando
+
         // NOT ORBITERS:
         // orbiters.put("265255911012958208", "Destiny"); // Could also be filtered frontend...
 

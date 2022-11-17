@@ -19,9 +19,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class DiscordOrbiterScraper {
-    public static final String DISCORD_USER = "";
-    public static final String DISCORD_PASSWORD = "";
+    private static Dotenv dotenv = Dotenv.load();
+    public static final String DISCORD_USER = dotenv.get("username");
+    public static final String DISCORD_PASSWORD = dotenv.get("password");
     private static List<String> currentOrbitersInRoom = new ArrayList<>();
 
     public DiscordOrbiterScraper() {
@@ -47,7 +50,7 @@ public class DiscordOrbiterScraper {
     }
 
     private static String callDiscord() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "/home/jelmer/Downloads/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/home/ec2-user/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized"); // open Browser in maximized mode
@@ -78,21 +81,39 @@ public class DiscordOrbiterScraper {
     }
 
     private static String getPageSource(WebDriver driver) throws InterruptedException {
+	System.out.println("Navigating to the discord");
         driver.get("https://discord.com/channels/265256381437706240/270578632026488851");
+	System.out.println("Navigated to the discord");
 
         synchronized(driver) {
             driver.wait(5000);
         }
+	System.out.println(driver.findElement(By.xpath("//*")));
+	System.out.println(driver.getPageSource());
 
-        WebElement destinysRoom = driver.findElement(By.xpath("//*[@id=\"channels\"]/ul/li[@data-dnd-name=\"Destiny\'s Room\"]"));
+        //WebElement destinysRoom = driver.findElement(By.xpath("//*[@id=\"channels\"]/ul/li[@data-dnd-name=\"Destiny\'s Room\"]"));
+	WebElement destinysRoom;
+	try {
+		destinysRoom = driver.findElement(By.xpath("//*[@id=\"channels\"]/ul/li[@data-dnd-name=\"General Lobby\"]"));
+	} catch (Exception e) {
+//		System.out.println(e);
+		System.out.println(DISCORD_USER);
+		System.out.println(DISCORD_PASSWORD);
+		throw e;
+	}
+	System.out.println("The room");
+	System.out.println(destinysRoom.getText());
 
         String outerHTML = destinysRoom.getAttribute("outerHTML");
         // Note: We also have access to the names with getText, but we probably prefer the ids.
+	System.out.println();
+	System.out.println(outerHTML);
 
         return outerHTML;
     }
 
     private static void login(WebDriver driver) throws InterruptedException {
+	System.out.println("Logging in");
         driver.get("https://discord.com/login");
         synchronized(driver) {
             driver.wait(5300);
@@ -103,6 +124,7 @@ public class DiscordOrbiterScraper {
             System.out.println("No username field found! No need to log in");
             return;
         }
+	System.out.println("Found email element");
 
         username.click();
         username.sendKeys(DISCORD_USER);
@@ -111,9 +133,13 @@ public class DiscordOrbiterScraper {
         password.click();
         password.sendKeys(DISCORD_PASSWORD);
 
+	System.out.println("Password set");
+
         WebElement login = driver.findElement(By.className("button-1cRKG6"));
         System.out.println(login);
         login.click();
+
+	System.out.println("Clicked login");
 
         synchronized(driver) {
             driver.wait(5000);
@@ -122,10 +148,12 @@ public class DiscordOrbiterScraper {
 
     private List<String> retrieveOrbitersInDestinysRoom() throws IOException, InterruptedException, URISyntaxException, ParserConfigurationException, SAXException, XPathExpressionException {
         String destinysRoom = callDiscord();
+	System.out.println(destinysRoom);
 
         // Add the orbiter names based on the ids found in the voice channel
         Map<String, String> orbiters = DiscordOrbiterMapper.getOrbiters();
         List<String> orbiterNames = new ArrayList<>();
+	System.out.println(orbiters.keySet());
         for (Map.Entry<String, String> orbiter : orbiters.entrySet()) {
             String orbiterId = orbiter.getKey();
             if (destinysRoom.contains(orbiterId)) {
