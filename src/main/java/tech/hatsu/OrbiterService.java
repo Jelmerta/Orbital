@@ -5,15 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class OrbiterService {
-    OrbiterManager orbiterManager = new OrbiterManager();
-
     @GetMapping("/orbiters/")
     public String orbiters() throws JsonProcessingException {
-        List<Orbiter> currentOrbitersInRoom = orbiterManager.getCurrentOrbitersInRoom();
+        List<Orbiter> currentOrbitersInRoom = OrbiterManager.getCurrentOrbitersInRoom();
         ObjectMapper objectMapper = new ObjectMapper();
         System.out.println(currentOrbitersInRoom);
         return objectMapper.writeValueAsString(currentOrbitersInRoom);

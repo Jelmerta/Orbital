@@ -9,13 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrbiterManager {
-    private OrbitStockManager orbitStockManager = new OrbitStockManager();
-    private DiscordOrbiterScraper discordOrbiterScraper = new DiscordOrbiterScraper();
+    private static OrbitStockManager orbitStockManager = new OrbitStockManager();
+    private static DiscordOrbiterScraper discordOrbiterScraper = new DiscordOrbiterScraper();
 
     public OrbiterManager() {
+
     }
 
-    public List<Orbiter> getCurrentOrbitersInRoom() {
+    public static List<Orbiter> getCurrentOrbitersInRoom() {
         List<String> currentOrbitersInRoom = discordOrbiterScraper.getCurrentOrbitersInRoom();
 
         List<Orbiter> result = new ArrayList<>();
