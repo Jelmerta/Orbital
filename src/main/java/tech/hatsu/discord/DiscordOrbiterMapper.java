@@ -6,10 +6,14 @@ import java.util.Map;
 public class DiscordOrbiterMapper {
     private static final Map<String, String> orbiters = new HashMap<>();
 
-    public static void loadOrbiters() {
+    static {
+        loadOrbiters();
+    }
+
+    private static void loadOrbiters() {
         System.out.println("Loading Discord orbiters");
 
-	orbiters.put("199936015216017408", "Lav"); // TODO JUST FOR TESTING NOW this is a rando
+	    orbiters.put("1042437622783549570", "Sweatstiny"); // TODO JUST FOR TESTING NOW THIS IS SWEATSTINY ACCOUNT
 
         // NOT ORBITERS:
         // orbiters.put("265255911012958208", "Destiny"); // Could also be filtered frontend...
@@ -108,11 +112,11 @@ public class DiscordOrbiterMapper {
         System.out.println("Loaded Discord orbiters");
     }
 
-    public static Map<String, String> getOrbiters() {
-        return orbiters;
+    public static boolean isOrbiter(String memberId) {
+        return orbiters.containsKey(memberId);
     }
 
-    public static String toNormalizedName(String name) {
-        return name.toLowerCase();
+    public static String getName(String memberId) {
+        return orbiters.get(memberId).toLowerCase();
     }
 }
