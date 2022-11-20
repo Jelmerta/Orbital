@@ -1,16 +1,14 @@
-package tech.hatsu;
+package tech.hatsu.dgg;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class dggOrbiterMapper {
+public class DggOrbiterMapper {
 
     private static Map<String, String> dggOrbiters = new HashMap<>();
 
-    public static void main(String[] args) {
-
-
+    static {
         dggOrbiters.put("Jelmer", "Sweatstiny"); // TODO JUST FOR TESTING NOW THIS IS SWEATSTINY ACCOUNT
 
         // NOT ORBITERS:
@@ -29,12 +27,12 @@ public class dggOrbiterMapper {
         // orbiters.put("", "Biden");
         dggOrbiters.put("trihex", "TriHex");
         // orbiters.put("", "Lex"); // DUPLICATE
-        dggOrbiters.put("580604479808864267", "Lex"); // Fridman could be "lex" just some messages in 2018
+//        dggOrbiters.put("580604479808864267", "Lex"); // Fridman could be "lex" just some messages in 2018
         dggOrbiters.put("andymilonakis", "Andy Milonakis");
         dggOrbiters.put("august", "August");
 //        dggOrbiters.put("Koibu", "Koibu"); ?
         dggOrbiters.put("lilypichu", "LilyPichu");
-        dggOrbiters.put("195980608822837249", "XQC");
+//        dggOrbiters.put("195980608822837249", "XQC");
         dggOrbiters.put("trainwreckstv", "TrainwrecksTV");
         // orbiters.put("", "The Saint and The Sinner");
         dggOrbiters.put("tng69", "tng69"); // A BOT NO DISCORD ID
@@ -62,7 +60,7 @@ public class dggOrbiterMapper {
         dggOrbiters.put("lav", "Lav");
 
         // ORBITERS:
-        dggOrbiters.put("887772050410831943", "LowTierGod");
+//        dggOrbiters.put("887772050410831943", "LowTierGod");
         // orbiters.put("", "Ethan Ralph");
         // orbiters.put("", "Anastasiya");
         // orbiters.put("", "Zherka");
@@ -107,5 +105,9 @@ public class dggOrbiterMapper {
         dggOrbiters.put("esportsbatman", "esportsbatman");
         dggOrbiters.put("cake", "Cake");
 
+    }
+
+    public static boolean isOrbiter(String name) {
+        return dggOrbiters.containsKey(name.toLowerCase());
     }
 }
