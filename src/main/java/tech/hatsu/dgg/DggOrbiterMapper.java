@@ -9,7 +9,7 @@ public class DggOrbiterMapper {
     private static Map<String, String> dggOrbiters = new HashMap<>();
 
     static {
-        dggOrbiters.put("Jelmer", "Sweatstiny"); // TODO JUST FOR TESTING NOW THIS IS SWEATSTINY ACCOUNT
+        dggOrbiters.put("jelmer", "Sweatstiny"); // TODO JUST FOR TESTING NOW THIS IS SWEATSTINY ACCOUNT
 
         // NOT ORBITERS:
         // orbiters.put("265255911012958208", "Destiny"); // Could also be filtered frontend...
@@ -104,7 +104,8 @@ public class DggOrbiterMapper {
         dggOrbiters.put("dooby", "Dooby");
         dggOrbiters.put("esportsbatman", "esportsbatman");
         dggOrbiters.put("cake", "Cake");
-
+        dggOrbiters.put("gappyv", "GappyV");
+        dggOrbiters.put("erisann", "ErisAnn");
     }
 
     public static boolean isOrbiter(String name) {
