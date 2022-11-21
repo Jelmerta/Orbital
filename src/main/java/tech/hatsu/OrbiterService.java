@@ -17,4 +17,14 @@ public class OrbiterService {
         System.out.println(currentOrbitersInRoom);
         return objectMapper.writeValueAsString(currentOrbitersInRoom);
     }
+
+    @GetMapping("/orbiterevents/")
+    public String orbiterEvents() throws JsonProcessingException {
+        List<OrbiterEvent> orbiterEvents = new ArrayList<>();
+        for (OrbiterEventSource eventSource : orbiterEventSources) {
+            orbiterEvents.addAll(eventSource.getOrbiterEvents());
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(orbiterEvents);
+    }
 }

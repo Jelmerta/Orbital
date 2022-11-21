@@ -2,19 +2,27 @@ package tech.hatsu.dgg;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import tech.hatsu.OrbiterEvent;
+import tech.hatsu.OrbiterEventSource;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 
-public class DggManager extends WebSocketClient {
+public class DggChatManager extends WebSocketClient {
     private static Logger logger = LogManager.getLogger();
 
-    public DggManager(URI serverURI) {
+    public DggChatManager(URI serverURI) {
         super(serverURI);
+    }
+
+    public static OrbiterEventSource getEventSource() {
+        throw new NotImplementedException();
     }
 
     @Override
@@ -49,8 +57,15 @@ public class DggManager extends WebSocketClient {
             return;
         }
 
+        Instant timestamp = Instant.ofEpochSecond(msgCommand.getTimestamp());
+//        String message = msgCommand + ": " +
+        OrbiterEvent orbiterEvent = new OrbiterEvent(timestamp, OrbiterEvent.Type.DGG_CHAT, msgCommand.getNick());
+
+
         logger.info("Found an orbiter message! " + msgCommand.getNick() + " just said " + msgCommand.getData());
     }
+
+//    public void publish()
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
@@ -65,7 +80,7 @@ public class DggManager extends WebSocketClient {
     }
 
     public static void main(String[] args) throws URISyntaxException, InterruptedException {
-        DggManager c = new DggManager(new URI("wss://chat.destiny.gg/ws"));
+        DggChatManager c = new DggChatManager(new URI("wss://chat.destiny.gg/ws"));
         c.connect();
         Thread.sleep(2000); // Provide some startup time before checking liveliness
         while (c.isOpen()) {

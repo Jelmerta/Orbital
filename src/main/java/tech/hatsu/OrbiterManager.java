@@ -1,5 +1,6 @@
 package tech.hatsu;
 
+import tech.hatsu.dgg.DggChatManager;
 import tech.hatsu.discord.DiscordOrbiterMapper;
 import tech.hatsu.manifold.OrbitStockManager;
 import tech.hatsu.manifold.model.Market;
@@ -15,9 +16,15 @@ import java.util.Optional;
 
 public class OrbiterManager {
     private static OrbitStockManager orbitStockManager = new OrbitStockManager();
+    private static final List<OrbiterEventSource> orbiterEventSources = new ArrayList<>();
 
     public OrbiterManager() {
+        loadEventSources();
+    }
 
+    private void loadEventSources() {
+        orbiterEventSources.add(DggChatManager.getEventSource());
+        orbiterEventSources.add(DiscordChannelManager.getEventSource());
     }
 
     public static List<Orbiter> getCurrentOrbitersInRoom() {
