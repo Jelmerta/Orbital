@@ -108,6 +108,8 @@ public class DiscordOrbiterMapper {
         orbiters.put("884961422352715847", "Dooby");
         orbiters.put("104616715396087808", "esportsbatman");
         orbiters.put("252869311545212928", "Cake");
+        orbiters.put("193183737377325056", "GappyV");
+        orbiters.put("198222154955882496", "ErisAnn");
 
         System.out.println("Loaded Discord orbiters");
     }
