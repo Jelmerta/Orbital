@@ -21,7 +21,7 @@ public class OrbitStockManager {
         updateMarketsJob();
     }
 
-    public Optional<Market> getPopularMarketForOrbiter(String orbiterName) {
+    public static Optional<Market> getPopularMarketForOrbiter(String orbiterName) {
         // TODO This market just added for test case.
         if (orbiterName.equalsIgnoreCase("sweatstiny")) {
             Market market = new Market();

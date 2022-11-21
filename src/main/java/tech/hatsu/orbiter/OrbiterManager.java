@@ -1,7 +1,11 @@
-package tech.hatsu;
+package tech.hatsu.orbiter;
 
-import tech.hatsu.dgg.DggChatManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import tech.hatsu.Orbiter;
 import tech.hatsu.discord.DiscordOrbiterMapper;
+import tech.hatsu.helper.OrbiterEvent;
+import tech.hatsu.helper.SubscriberInterface;
 import tech.hatsu.manifold.OrbitStockManager;
 import tech.hatsu.manifold.model.Market;
 
@@ -14,19 +18,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OrbiterManager {
+public class OrbiterManager implements SubscriberInterface {
     private static OrbitStockManager orbitStockManager = new OrbitStockManager();
-    private static final List<OrbiterEventSource> orbiterEventSources = new ArrayList<>();
+
+    // TODO We probably want to clean up older events and only keep a current state for now?
+    // TODO Deal with leaving channel?
+    private List<OrbiterEvent> orbiterEvents = new ArrayList<>();
+    private static Logger logger = LogManager.getLogger();
+
 
     public OrbiterManager() {
-        loadEventSources();
     }
 
-    private void loadEventSources() {
-        orbiterEventSources.add(DggChatManager.getEventSource());
-        orbiterEventSources.add(DiscordChannelManager.getEventSource());
+    public void update(OrbiterEvent orbiterEvent) {
+        logger.info("Found update for orbiter!");
+        logger.info(orbiterEvent);
+        logger.info("\n");
+        orbiterEvents.add(orbiterEvent);
     }
 
+    // TODO Maybe the markets for each orbiter should be returned separately?
     public static List<Orbiter> getCurrentOrbitersInRoom() {
         List<String> channelMemberIds = readChannelMemberIds();
 
@@ -40,7 +51,7 @@ public class OrbiterManager {
 
             String orbiterName = DiscordOrbiterMapper.getName(channelMemberId);
 
-            Optional<Market> popularMarketForOrbiter = orbitStockManager.getPopularMarketForOrbiter(orbiterName);
+            Optional<Market> popularMarketForOrbiter = OrbitStockManager.getPopularMarketForOrbiter(orbiterName);
             if (popularMarketForOrbiter.isEmpty()) {
                 System.out.println("Warning: No market found for orbiter " + orbiterName);
                 continue;
@@ -65,5 +76,9 @@ public class OrbiterManager {
         } catch (IOException e) {
             throw new RuntimeException(e); // TODO handle error endpoint nicely...
         }
+    }
+
+    public List<OrbiterEvent> getOrbiterEvents() {
+        return orbiterEvents;
     }
 }

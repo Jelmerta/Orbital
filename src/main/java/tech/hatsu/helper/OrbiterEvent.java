@@ -1,4 +1,4 @@
-package tech.hatsu;
+package tech.hatsu.helper;
 
 import java.time.Instant;
 
