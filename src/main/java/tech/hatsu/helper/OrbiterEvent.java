@@ -1,12 +1,18 @@
 package tech.hatsu.helper;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
+
 import java.time.Instant;
 
 public class OrbiterEvent {
+
+    @JsonSerialize(using = InstantSerializer.class)
     Instant timestamp;
     Type type;
     String orbiterName;
 
+    // TODO Payload? Chat message?
 //    String message;
 
     public OrbiterEvent(Instant timestamp, Type type, String orbiterName) {

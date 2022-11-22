@@ -49,7 +49,7 @@ public class DggChatManager {
             return;
         }
 
-        Instant timestamp = Instant.ofEpochSecond(msgCommand.getTimestamp());
+        Instant timestamp = Instant.ofEpochSecond(msgCommand.getTimestamp() / 1000, msgCommand.getTimestamp() % 1000); // Timestamp is returned as milliseconds
         OrbiterEvent orbiterEvent = new OrbiterEvent(timestamp, OrbiterEvent.Type.DGG_CHAT, msgCommand.getNick());
 
         subscriber.update(orbiterEvent);

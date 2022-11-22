@@ -65,7 +65,6 @@ public class OrbitStockManager {
             }
             String name = question.substring(0, index);
             String lowerCaseName = name.toLowerCase(); // Normalized
-            System.out.println(lowerCaseName);
 
             List<Market> marketsForName = nameToMarkets.getOrDefault(name, new ArrayList<>());
             marketsForName.add(market);
